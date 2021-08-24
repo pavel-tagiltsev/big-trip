@@ -174,15 +174,20 @@ render(tripMainElement, createTripInfoTemplate(), 'afterbegin');
 render(menuTitleElement, createMenuTemplate(), 'afterend');
 render(controlElement, createFilterTemplate(), 'beforeend');
 render(eventElement, createSortTemplate(), 'beforeend');
-render(eventElement, createEventListTemplate(), 'beforeend');
-
-const enentListElement = document.querySelector('.trip-events__list');
-
-render(enentListElement, createEventEditTemplate(), 'beforeend');
 
 const points = createPoints();
 
+render(eventElement, createEventListTemplate(points), 'beforeend');
+
+const enentListElement = document.querySelector('.trip-events__list');
+
+render(enentListElement, createEventEditTemplate(points[0]), 'beforeend');
+
 points.forEach((point) => {
-  render(enentListElement, createEventTemplate(point), 'beforeend');
+  const {date_from} = point;
+  const list = document.querySelector(`time[datetime="${date_from.format('MMM D')}"]`);
+  const trueList = list.parentElement.parentElement.querySelector('.trip-events__list');
+
+  render(trueList, createEventTemplate(point), 'beforeend');
 });
 
